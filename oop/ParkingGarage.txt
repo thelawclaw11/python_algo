@@ -1,0 +1,28 @@
+Specs:
+
+Parking Garage will be initialized with a number of spaces
+payment is based on size of car and duration of stay
+user can ask if they can park their car
+user is given a ticket with the amount they must pay
+
+Use Case:
+
+Actors:
+    Parking Garage
+    User
+
+1. User pulls up to kiosk and asks if they can park their car
+2. User is given ticket indicating the start time of their parking
+3. User parks car
+4. User leaves
+5. User comes back and drives car to kiosk
+6. User presents kiosk with ticket
+7. Kiosk tells User how much money is owed
+8. User pays kiosk
+
+Extensions
+
+1. there is no room for their car, they are told to leave
+
+
+

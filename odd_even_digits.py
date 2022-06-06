@@ -1,0 +1,5 @@
+print(33333 % 10)
+print(3333 % 10)
+print(333 % 10)
+print(33 % 10)
+print(3 % 10)
