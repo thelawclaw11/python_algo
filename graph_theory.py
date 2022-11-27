@@ -69,17 +69,27 @@ def verify_tail(graph, trail):
 
     return True
 
-graph = [
-    [1, 5],
-    [0, 2, 4, 3],
-    [1, 3],
-    [1, 2, 5],
-    [1, 5],
-    [3, 4, 0]
-]
 
-walk =make_walk(graph, 100)
+def is_eulerian(graph):
 
-print(walk)
-print(verify_walk(graph, walk))
+    for node, friends in graph:
+        if len(friends) % 2 != 0:
+            return False
+
+    return True
+
+
+
+
+graph = {
+    "1": ["2", "5", "4", "3"],
+    "2": ["1", "5", "4", "3"],
+    "3": ["2", "1", "4", "5"],
+    "4": ["1", "2", "6", "3"],
+    "5": ["1", "2", "3", "6"],
+    "6": ["5", "4"]
+}
+
+
+print(is_eulerian(graph))
 

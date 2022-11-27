@@ -1,11 +1,12 @@
+from enum import Enum, auto
+
+
 def top_sort(graph):
     parent_count = {node: 0 for node in graph.keys()}
 
     for node in graph:
         for neighbor in graph[node]:
             parent_count[neighbor] += 1
-
-    print(parent_count)
 
     visited = set()
 
@@ -28,6 +29,7 @@ def top_sort(graph):
             F(node)
 
     return result
+
 
 def top_sort2(graph):
     result = []
@@ -59,8 +61,72 @@ def top_sort2(graph):
 
     return result
 
+
 def top_sort3(graph):
-    pass
+    parent_count = {node: 0 for node in graph.keys()}
+
+    for node, children in graph.items():
+        for child in children:
+            parent_count[child] += 1
+
+    seen = set()
+    result = []
+
+    def visit(node):
+        if node in seen:
+            return
+
+        seen.add(node)
+        result.append(node)
+
+        for c in graph[node]:
+            parent_count[c] -= 1
+            if parent_count[c] == 0:
+                visit(c)
+
+    for node in graph.keys():
+        if parent_count[node] == 0:
+            visit(node)
+
+    if len(result) != len(graph):
+        raise ValueError("Graph has a cycle")
+
+    return result
+
+
+class State(Enum):
+    TEMP = auto()
+    PERM = auto()
+    UNMARKED = auto()
+
+def top_sort4(graph):
+
+    state = {n: State.UNMARKED for n in graph.keys()}
+
+    result = []
+
+    def visit(node):
+        if state[node] == State.PERM:
+            return
+
+        if state[node] == State.TEMP:
+            raise ValueError("Not a DAG")
+
+        state[node] = State.TEMP
+
+        for friend in graph[node]:
+            visit(friend)
+
+        state[node] = State.PERM
+        result.append(node)
+
+
+    while len([s for s in state.values() if s == State.UNMARKED]):
+        visit([n for n, s in state.items() if s == State.UNMARKED][0])
+
+    result.reverse()
+
+    return result
 
 
 dag2 = {
@@ -76,8 +142,10 @@ dag2 = {
     "J": []
 }
 
-print(top_sort(dag2))
-print(top_sort2(dag2))
+# print(top_sort(dag2))
+# print(top_sort2(dag2))
+# print(top_sort3(dag2))
+print(top_sort4(dag2))
 
 dag = {
     "A": ["B", "C"],
